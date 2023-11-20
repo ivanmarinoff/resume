@@ -1,6 +1,5 @@
 const http = require('http');
 const port = 8080;
-const fs = require('fs');
 const express = require('express');
 const app = express();
 
