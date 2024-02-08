@@ -22,3 +22,16 @@ app.get('/', function (req, res) {
 app.listen(port, function () {
   console.log(`Server is listening on port ${port}`);
 });
+
+require('dotenv').config();
+const Mixpanel = require('mixpanel');
+
+// create an instance of the mixpanel client
+const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN);
+
+mixpanel.init(
+  process.env.MIXPANEL_TOKEN,
+  {
+    host: "api-eu.mixpanel.com",
+  },
+);
