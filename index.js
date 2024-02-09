@@ -24,7 +24,7 @@ app.listen(port, function () {
 });
 
 require('dotenv').config();
-const Mixpanel = require('mixpanel');
+const Mixpanel = require('mixpanel', {track_pageview: true});
 
 // create an instance of the mixpanel client
 const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN);
@@ -35,3 +35,4 @@ mixpanel.init(
     host: "api-eu.mixpanel.com",
   },
 );
+mixpanel.track_pageview();
