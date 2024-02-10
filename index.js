@@ -27,12 +27,4 @@ require('dotenv').config();
 const Mixpanel = require('mixpanel', {track_pageview: true});
 
 // create an instance of the mixpanel client
-const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN);
-
-mixpanel.init(
-  process.env.MIXPANEL_TOKEN,
-  {
-    host: "api-eu.mixpanel.com",
-  },
-);
-mixpanel.track_pageview();
+const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN, {host: "api-eu.mixpanel.com",});
