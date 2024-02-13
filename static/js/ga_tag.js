@@ -1,9 +1,15 @@
-// ga_tag.js
+const vm = require('vm');
 
-// Google tag (gtag.js)
-(function() {
-    const gtag = window.gtag || function () {
-    };
-    gtag('js', new Date());
-    gtag('config', 'G-G3NN486JFL');
-})();
+const script = `
+  var window = {};
+  var dataLayer = [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-G3NN486JFL');
+`;
+
+const sandbox = { dataLayer: [] };
+const context = new vm.createContext(sandbox);
+vm.runInContext(script, context);
+
+console.log(sandbox.dataLayer); // Output the dataLayer array after executing the script
