@@ -106,6 +106,20 @@ h2 span
         transform: translateY(-15px);
     }
 }
+@media (min-width: 768px) {
+    /*.preloader {*/
+    /*    height: calc(100% - 200px); !* Adjust space for photo on larger screens *!*/
+    /*}*/
+    .wave {
+        font-size: 48px; /* Larger font size for bigger screens */
+    }
+    .preloader-photo {
+        width: 150px; /* Larger photo size for bigger screens */
+        bottom: 20px;
+    }
+}
+
+
 
 
 /*@-webkit-keyframes sk-waveStretchDelay {*/
