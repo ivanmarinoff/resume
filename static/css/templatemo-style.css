@@ -92,7 +92,8 @@ h2 span
 .preloader-photo {
 	display: block;
     margin-top: 20px; /* Adjust space between the name and the photo */
-    width: 150px; /* Adjust size as needed */
+    width: 20vw; /* Adjust size as needed */
+	max-width: 100px; /* Cap the size on larger screens */
     height: auto;
     border-radius: 50%; /* Optional: makes the photo circular */
 }
@@ -119,7 +120,15 @@ h2 span
     }
 }
 
-
+/* Media query for very small screens (e.g., small phones) */
+@media (max-width: 480px) {
+    .wave {
+        font-size: 8vw; /* Increase font size slightly on very small screens */
+    }
+    .preloader-photo {
+        width: 25vw; /* Adjust photo size for very small screens */
+    }
+}
 
 
 /*@-webkit-keyframes sk-waveStretchDelay {*/
