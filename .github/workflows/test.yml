@@ -1,0 +1,32 @@
+name: test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install
+      - name: Start server
+        run: node server.js &
+        working-directory: server
+      - name: Start app
+        run: npm run start-for-tests &
+      - name: Install playwright
+        run: npx playwright install
+      - name: Run tests
+        run: npx playwright test tests/home.test.js
+        working-directory: tests
