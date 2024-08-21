@@ -20,9 +20,6 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm install
-      - name: Start server
-        run: node server.js &
-        working-directory: server
       - name: Start app
         run: npm run start-for-tests &
       - name: Install playwright
