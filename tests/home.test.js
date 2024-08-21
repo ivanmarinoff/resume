@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test('Check home page', async ({ page }) => {
+test('Check phone number on home page', async ({ page }) => {
     await page.goto('https://ivanmarinoff-resume.onrender.com/');
     const heading = await page.$('p');
     const text = await heading.textContent();
@@ -31,17 +31,28 @@ test('Check "My Resume" button', async ({ page }) => {
     // Verify that the button is present
     expect(resumeButton).not.toBeNull();
 
-    // Click the "My Resume" button
-    await resumeButton.click();
+    // Verify that the button is enabled
+    expect(await resumeButton.isEnabled()).toBe(true);
 
     // Wait for navigation after clicking the button
-    await page.waitForNavigation();
+});
 
-    // Verify that the URL is the expected resume page URL
-    expect(page.url()).toBe('https://ivanmarinoff-resume.onrender.com/resume'); // Replace with the actual resume page URL if different
+test('Check "My Resume" button opens PDF in new tab', async ({ page, context }) => {
+    // Go to the page containing the link
+    await page.goto('https://ivanmarinoff-resume.onrender.com/');
 
-    // Optionally, verify content on the resume page
-    const resumeHeading = await page.$('h1'); // Assuming there is a heading on the resume page
-    const headingText = await resumeHeading.textContent();
-    expect(headingText).toContain('Resume'); // Replace with the actual heading text
+    // Trigger the click and wait for the new page (tab) to open
+    const [newPage] = await Promise.all([
+        context.waitForEvent('page'),          // Wait for the new tab to be opened
+        page.click('text=My Resume:📋')        // Click the link that opens a new tab
+    ]);
+    console.log('Pages after click:', context.pages().length);
+
+    // Assert that the new page is not the same as the current one
+    expect(newPage).not.toBe(page);
+
+    // Assert that the new page has the PDF file
+    const pdfContent = await newPage.pdf();
+    expect(pdfContent).not.toBeNull();
+    await newPage.close();
 });
