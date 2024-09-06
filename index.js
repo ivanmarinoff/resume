@@ -29,20 +29,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Set up your index route
-app.get('/', function (req, res) {
-    const visitorIP = req.ip; // Get the visitor's IP address
-    const browser = req.useragent.browser; // Get the browser information
-    const os = req.useragent.os; // Get the OS information
-    const time = new Date().toLocaleString(); // Get the current time
-
-    // Send an email notification with all details
-    sendEmail(visitorIP, browser, os, time);
-
-    // Serve the HTML file
-    res.sendFile(__dirname + '/index.html');
-});
-
 // Function to send an email notification
 async function sendEmail(visitorIP, browser, os, time) {
     const mailOptions = {
@@ -67,9 +53,33 @@ async function sendEmail(visitorIP, browser, os, time) {
 }
 
 
+// Set up your index route
+app.get('/', function (req, res) {
+    const visitorIP = req.ip; // Get the visitor's IP address
+    const browser = req.useragent.browser; // Get the browser information
+    const os = req.useragent.os; // Get the OS information
+    const time = new Date().toLocaleString(); // Get the current time
+
+    // Send an email notification with all details
+    sendEmail(visitorIP, browser, os, time);
+
+    // Serve the HTML file
+    res.sendFile(__dirname + '/index.html');
+});
+
+
 // Start the server
 app.listen(port, function () {
     console.log(`Server is listening on port ${port}`);
+});
+
+app.post('/session-end', express.json(), (req, res) => {
+    const { ip, browser, os, time } = req.body;
+
+    // Send an email with the collected data
+    sendEmail(ip, browser, os, time);
+
+    res.sendStatus(200); // Respond with a status to indicate successful handling
 });
 
 
