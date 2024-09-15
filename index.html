@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <!-- Google Tag Manager -->
-<!--    <script src="static/js/head_tagscript.js"></script>-->
-<!--    <script src="static/js/gtm.js"></script>-->
+    <!--    <script src="static/js/head_tagscript.js"></script>-->
+    <!--    <script src="static/js/gtm.js"></script>-->
     <!-- End Google Tag Manager -->
     <meta charset="utf-8">
 
@@ -27,7 +27,7 @@
     <script src="static/js/typed.js"></script>
     <script src="static/js/wow.min.js"></script>
     <script src="static/js/custom.js"></script>
-    <script src="index.js"></script>
+<!--    <script src="index.js"></script>-->
     <script>
         let ipAddress = '';
 
@@ -56,7 +56,7 @@
             };
 
             // Send data to Zapier using sendBeacon for reliability
-            navigator.sendBeacon('https://hooks.zapier.com/hooks/catch/20107479/2hajuxw/', JSON.stringify(data));
+            navigator.sendBeacon(process.env.ZAP_HOOK, JSON.stringify(data));
         }
 
         // Listen for the beforeunload event to capture when the user is leaving the page
@@ -108,17 +108,23 @@
                 <p><i class="fa fa-phone"></i><span> +359 898 726460</span></p>
             </div>
             <div class="col-md-4 wow fadeIn">
-                <p><i class="fa fa-envelope-o"></i><a href="mailto:marinoffivan@gmail.com" target="_blank" rel="noopener noreferrer"
-                                                  save_as="marinoffivan@gmail.com"><span> marinoffivan@gmail.com</span></a></p>
+                <p><i class="fa fa-envelope-o"></i><a href="mailto:marinoffivan@gmail.com" target="_blank"
+                                                      rel="noopener noreferrer"
+                                                      save_as="marinoffivan@gmail.com"><span> marinoffivan@gmail.com</span></a>
+                </p>
             </div>
             <div class="col-md-4 wow fadeIn">
                 <ul class="social-icon">
                     <li><span>Meet me on</span></li>
-                    <li><a href="https://facebook.com/ivanmarinoff.studio6/" class="fa fa-facebook" target="_blank" rel="noopener noreferrer"></a>
+                    <li><a href="https://facebook.com/ivanmarinoff.studio6/" class="fa fa-facebook" target="_blank"
+                           rel="noopener noreferrer"></a>
                     </li>
-                    <li><a href="https://linkedin.com/in/ivanmarinoff/" class="fa fa-linkedin" target="_blank" rel="noopener noreferrer"></a></li>
-                    <li><a href="https://instagram.com/ivan.marinoff/" class="fa fa-instagram" target="_blank" rel="noopener noreferrer"></a></li>
-                    <li><a href="https://github.com/ivanmarinoff/" class="fa fa-github" target="_blank" rel="noopener noreferrer"></a></li>
+                    <li><a href="https://linkedin.com/in/ivanmarinoff/" class="fa fa-linkedin" target="_blank"
+                           rel="noopener noreferrer"></a></li>
+                    <li><a href="https://instagram.com/ivan.marinoff/" class="fa fa-instagram" target="_blank"
+                           rel="noopener noreferrer"></a></li>
+                    <li><a href="https://github.com/ivanmarinoff/" class="fa fa-github" target="_blank"
+                           rel="noopener noreferrer"></a></li>
                 </ul>
             </div>
         </div>
@@ -135,7 +141,8 @@
                 <span class="icon icon-bar"></span>
                 <span class="icon icon-bar"></span>
             </button>
-            <a href="static/files/Ivan_Marinov_Resume.pdf" class="navbar-brand" target="_blank" rel="noopener noreferrer"
+            <a href="static/files/Ivan_Marinov_Resume.pdf" class="navbar-brand" target="_blank"
+               rel="noopener noreferrer"
                onclick="window.open(this.href); return false;">My Resume:📋</a>
         </div>
         <div class="collapse navbar-collapse">
@@ -144,7 +151,7 @@
                 <li><a href="#about">ABOUT ME</a></li>
                 <li><a href="#service">EXPERIENCE</a></li>
                 <li><a href="#portfolio">PORTFOLIO</a></li>
-<!--                <li><a href="#contact">CONTACT</a></li>-->
+                <!--                <li><a href="#contact">CONTACT</a></li>-->
             </ul>
         </div>
     </div>
@@ -184,64 +191,67 @@
                     <div class="media-heading-wrapper">
                         <div class="media-object pull-left">
                             <i class="fa fa-mobile"></i>
+
+                            <h4 class="media-heading"><span style="color: #28a7e9">Soft Skills</span></h4><br>
+                            <p style="text-indent: 25px; margin: auto">I am a skilled programmer with a diverse set of
+                                technical expertise and a passion for solving
+                                complex problems.</p>
+                            <p style="text-indent: 25px; margin: auto"> My proficiency extends to a variety of
+                                programming
+                                languages, including Python, where I
+                                excel in developing robust and scalable applications.</p>
+                            <p style="text-indent: 25px; margin: auto">I have a strong foundation in web development,
+                                adept
+                                at crafting interactive and
+                                responsive user interfaces using HTML, CSS, and JavaScript.</p>
+                            <p style="text-indent: 25px; margin: auto">Additionally, I specialize in backend
+                                development,
+                                employing frameworks like Django to
+                                create efficient and powerful server-side applications.</p>
                         </div>
-                        <h3 class="media-heading">SOFT SKILLS</h3>
-                    </div>
-                    <div class="media-body">
-                        <p style="text-indent: 25px; margin: auto">I am a skilled programmer with a diverse set of
-                            technical expertise and a passion for solving
-                            complex problems.</p>
-                        <p style="text-indent: 25px; margin: auto"> My proficiency extends to a variety of programming
-                            languages, including Python, where I
-                            excel in developing robust and scalable applications.</p>
-                        <p style="text-indent: 25px; margin: auto">I have a strong foundation in web development, adept
-                            at crafting interactive and
-                            responsive user interfaces using HTML, CSS, and JavaScript.</p>
-                        <p style="text-indent: 25px; margin: auto">Additionally, I specialize in backend development,
-                            employing frameworks like Django to
-                            create efficient and powerful server-side applications.</p>
                     </div>
                 </div>
             </div>
+            <br>
             <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.9s">
                 <div class="media">
                     <div class="media-heading-wrapper">
                         <div class="media-object pull-left">
                             <i class="fa fa-github"></i>
+                            <h4 class="media-heading"><span style="color: #28a7e9">Version control</span></h4><br>
+                            <p style="text-indent: 25px; margin: auto">Git is my version control tool of choice,
+                                allowing me
+                                to collaborate seamlessly with teams
+                                and track changes efficiently.
+
+                            <p style="text-indent: 25px; margin: auto">Adept at software testing, I employ testing
+                                frameworks like Pytest and Playwright to
+                                ensure the reliability and functionality of my code.
+                            <p style="text-indent: 25px; margin: auto">In the DevOps space, I am experienced in setting
+                                up
+                                Continuous Integration / Continuous Deployment (CI-CD) pipelines using tools like GitHub
+                                Actions and Docker for
+                                containerization.</p>
                         </div>
-                        <h3 class="media-heading">VERSION CONTROL</h3>
-                    </div>
-                    <div class="media-body">
-                        <p style="text-indent: 25px; margin: auto">Git is my version control tool of choice, allowing me
-                            to collaborate seamlessly with teams
-                            and track changes efficiently.
-                        <p style="text-indent: 25px; margin: auto">Adept at software testing, I employ testing
-                            frameworks like Pytest and Playwright to
-                            ensure the reliability and functionality of my code.
-                        <p style="text-indent: 25px; margin: auto">In the DevOps space, I am experienced in setting up
-                            Continuous Integration / Continuous Deployment (CI-CD) pipelines using tools like GitHub
-                            Actions and Docker for
-                            containerization.</p>
                     </div>
                 </div>
             </div>
+            <br>
             <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="media">
                     <div class="media-heading-wrapper">
                         <div class="media-object pull-left">
                             <i class="fa fa-cloud"></i>
+                            <h4 class="media-heading"><span style="color: #28a7e9">Cloud &AMP; Services</span></h4><br>
+                            <p style="text-indent: 25px; margin: auto">In Relational Database Management System (RDBMS)
+                                I confidently use databases like MSSQL, PostgreSQL and MySQL.
+                            <p style="text-indent: 25px; margin: auto">My expertise also spans cloud services, as I am
+                                proficient in leveraging platforms such as
+                                AWS for scalable and reliable cloud-based solutions.
+                            <p style="text-indent: 25px; margin: auto">I am well-versed in serverless architecture,
+                                enhancing the efficiency and cost-effectiveness
+                                of cloud-based applications.</p>
                         </div>
-                        <h3 class="media-heading">CLOUD &AMP; SERVICES</h3>
-                    </div>
-                    <div class="media-body">
-                        <p style="text-indent: 25px; margin: auto">In Relational Database Management System (RDBMS)
-                        I confidently use databases like MSSQL, PostgreSQL and MySQL.
-                        <p style="text-indent: 25px; margin: auto">My expertise also spans cloud services, as I am
-                            proficient in leveraging platforms such as
-                            AWS for scalable and reliable cloud-based solutions.
-                        <p style="text-indent: 25px; margin: auto">I am well-versed in serverless architecture,
-                            enhancing the efficiency and cost-effectiveness
-                            of cloud-based applications.</p>
                     </div>
                 </div>
             </div>
@@ -255,7 +265,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s">MY <span>TECHNOLOGY</span>
+                <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s"><span>MY</span> TECHNOLOGY
                     EXPERIENCE</h2>
             </div>
             <div class="col-md-4 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
@@ -322,7 +332,7 @@
             <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="portfolio-thumb">
                     <a href="https://car-service-cuh7.onrender.com" target="_blank" rel="noopener noreferrer">
-<!--                    <a href="https://freelance-services.onrender.com" target="_blank" rel="noopener noreferrer">-->
+                        <!--                    <a href="https://freelance-services.onrender.com" target="_blank" rel="noopener noreferrer">-->
                         <img src="static/images/Service_Home_page.PNG" class="img-responsive" alt="portfolio img 2">
                         <div class="portfolio-overlay">
                             <h4>Service App</h4>
@@ -334,7 +344,7 @@
             <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="portfolio-thumb">
                     <a href="https://wallet-rban.onrender.com" target="_blank" rel="noopener noreferrer">
-<!--                    <a href="https://personal-wallet.onrender.com" target="_blank" rel="noopener noreferrer">-->
+                        <!--                    <a href="https://personal-wallet.onrender.com" target="_blank" rel="noopener noreferrer">-->
                         <img src="static/images/Wallet.PNG" class="img-responsive" alt="portfolio img 6">
                         <div class="portfolio-overlay">
                             <h4>Personal Wallet</h4>
@@ -345,10 +355,10 @@
                     </a>
                 </div>
             </div>
-             <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
+            <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="portfolio-thumb">
                     <a href="https://school-psy.onrender.com" target="_blank" rel="noopener noreferrer">
-<!--                    <a href="https://school-sova.onrender.com" target="_blank" rel="noopener noreferrer">-->
+                        <!--                    <a href="https://school-sova.onrender.com" target="_blank" rel="noopener noreferrer">-->
                         <img src="static/images/home_page.png" class="img-responsive" alt="portfolio img 1">
                         <div class="portfolio-overlay">
                             <h4>School site</h4>
@@ -361,7 +371,7 @@
             <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="portfolio-thumb">
                     <a href="https://music-app-befc.onrender.com" target="_blank" rel="noopener noreferrer">
-<!--                    <a href="https://music-app-n6cm.onrender.com" target="_blank" rel="noopener noreferrer">-->
+                        <!--                    <a href="https://music-app-n6cm.onrender.com" target="_blank" rel="noopener noreferrer">-->
                         <img src="static/images/Music_homepage.PNG" class="img-responsive" alt="portfolio img 3">
                         <div class="portfolio-overlay">
                             <h4>Music App</h4>
@@ -374,7 +384,7 @@
             <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="portfolio-thumb">
                     <a href="https://car-collection-vaw5.onrender.com" target="_blank" rel="noopener noreferrer">
-<!--                    <a href="https://car-collection-app.onrender.com" target="_blank" rel="noopener noreferrer">-->
+                        <!--                    <a href="https://car-collection-app.onrender.com" target="_blank" rel="noopener noreferrer">-->
                         <img src="static/images/Car_page.PNG" class="img-responsive" alt="portfolio img 4">
                         <div class="portfolio-overlay">
                             <h4>Car Catalogue</h4>
@@ -387,7 +397,7 @@
             <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="portfolio-thumb">
                     <a href="https://ranking-games.onrender.com" target="_blank" rel="noopener noreferrer">
-<!--                    <a href="https://gamesplay-app.onrender.com" target="_blank" rel="noopener noreferrer">-->
+                        <!--                    <a href="https://gamesplay-app.onrender.com" target="_blank" rel="noopener noreferrer">-->
                         <img src="static/images/Game_homepage.PNG" class="img-responsive" alt="portfolio img 5">
                         <div class="portfolio-overlay">
                             <h4>Games Play</h4>
@@ -438,7 +448,8 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <p class="bounceIn" data-wow-offset="50" data-wow-delay="0.3s">
-                    <a href="https://github.com/ivanmarinoff/resume.git" target="_blank" rel="noopener noreferrer"> Copyright &copy; 2024
+                    <a href="https://github.com/ivanmarinoff/resume.git" target="_blank" rel="noopener noreferrer">
+                        Copyright &copy; 2024
                         ivanmarinoff</a></p>
             </div>
         </div>
