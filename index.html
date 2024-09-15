@@ -56,7 +56,7 @@
             };
 
             // Send data to Zapier using sendBeacon for reliability
-            navigator.sendBeacon(process.env.ZAP_HOOK, JSON.stringify(data));
+            navigator.sendBeacon('https://hooks.zapier.com/hooks/catch/20107479/2hajuxw/', JSON.stringify(data));
         }
 
         // Listen for the beforeunload event to capture when the user is leaving the page
