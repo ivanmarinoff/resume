@@ -12,7 +12,7 @@ let ipAddress = '';
         }
 
         // Fetch IP address on page load
-        fetchIpAddress();
+        fetchIpAddress().then(r => console.log(r));
 
         // Function to send data to Zapier when the user is leaving the page
         function sendVisitorData() {
