@@ -5,6 +5,7 @@ const app = express();
 const path = require('path');
 const nodemailer = require('nodemailer');
 const useragent = require('express-useragent');
+const helmet = require('helmet');
 
 app.use(useragent.express());
 require('dotenv').config();
@@ -17,7 +18,7 @@ app.set('view engine', 'pug');
 
 // Body parser for form data
 app.use(require('body-parser').urlencoded({ extended: true }));
-
+app.use(helmet());
 // Nodemailer setup with custom host and port
 // const transporter = nodemailer.createTransport({
 //     host: process.env.EMAIL_HOST, // SMTP server (e.g., smtp.gmail.com)
