@@ -49,109 +49,171 @@ h2 span
 /* end about team service portfolio contact */
 
 /* start preloader */
+.preloader
+	{
+		position: fixed;
+  		top: 0;
+  		left: 0;
+  		width: 100%;
+  		height: 100%;
+  		z-index: 99999;
+  		display: -webkit-box;
+  		display: -webkit-flex;
+  		display: -ms-flexbox;
+  		display: flex;
+  		-webkit-flex-flow: row nowrap;
+  		    -ms-flex-flow: row nowrap;
+  		        flex-flow: row nowrap;
+  		-webkit-box-pack: center;
+  		-webkit-justify-content: center;
+  		    -ms-flex-pack: center;
+  		        justify-content: center;
+  		-webkit-box-align: center;
+  		-webkit-align-items: center;
+  		    -ms-flex-align: center;
+  		        align-items: center;
+  		background: none repeat scroll 0 0 #ffffff;
+	}
+.sk-spinner-wave.sk-spinner
+	{
+  		width: 50px;
+  		height: 30px;
+  		text-align: center;
+  		font-size: 10px;
+  	}
+.sk-spinner-wave div
+	{
+  		background-color: #333;
+  		height: 100%;
+  		width: 6px;
+  		display: inline-block;
+         -webkit-animation: sk-waveStretchDelay 1.2s infinite ease-in-out;
+                 animation: sk-waveStretchDelay 1.2s infinite ease-in-out;
 
-.preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 99999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: none repeat scroll 0 0 #ffffff;
-}
-
-.sk-spinner-wave {
-    display: flex;
-    gap: 5px; /* Adjust space between the letters */
-}
-
-.wave {
-    font-size: 48px; /* Adjust size as needed */
-    font-weight: bold;
-    color: #000000; /* Adjust color as needed */
-    display: inline-block;
-    animation: wave-animation 1.2s infinite ease-in-out;
-}
-
-.wave:nth-child(1) { animation-delay: 0s; }
-.wave:nth-child(2) { animation-delay: 0.1s; }
-.wave:nth-child(3) { animation-delay: 0.2s; }
-.wave:nth-child(4) { animation-delay: 0.3s; }
-.wave:nth-child(5) { animation-delay: 0.4s; }
-.wave:nth-child(6) { animation-delay: 0.5s; }
-.wave:nth-child(7) { animation-delay: 0.6s; }
-.wave:nth-child(8) { animation-delay: 0.7s; }
-.wave:nth-child(9) { animation-delay: 0.8s; }
-.wave:nth-child(10) { animation-delay: 0.9s; }
-.wave:nth-child(11) { animation-delay: 1s; }
-.wave:nth-child(12) { animation-delay: 1.1s; }
-
-
-.preloader-photo {
-	display: block;
-    margin-top: 20px; /* Adjust space between the name and the photo */
-    width: 20vw; /* Adjust size as needed */
-	max-width: 100px; /* Cap the size on larger screens */
-    height: auto;
-    border-radius: 50%; /* Optional: makes the photo circular */
-}
-
-/* Keyframes for wave animation */
-@keyframes wave-animation {
-    0%, 60%, 100% {
-        transform: translateY(0);
     }
-    30% {
-        transform: translateY(-15px);
-    }
-}
-@media (min-width: 768px) {
-    /*.preloader {*/
-    /*    height: calc(100% - 200px); !* Adjust space for photo on larger screens *!*/
-    /*}*/
-    .wave {
-        font-size: 48px; /* Larger font size for bigger screens */
-    }
-    .preloader-photo {
-        width: 150px; /* Larger photo size for bigger screens */
-        bottom: 20px;
-    }
-}
+.sk-spinner-wave .sk-rect2
+	{
+          -webkit-animation-delay: -1.1s;
+                  animation-delay: -1.1s;
+      }
+.sk-spinner-wave .sk-rect3
+	{
+          -webkit-animation-delay: -1s;
+                  animation-delay: -1s;
+     }
+.sk-spinner-wave .sk-rect4
+	{
+          -webkit-animation-delay: -0.9s;
+                  animation-delay: -0.9s;
+     }
+.sk-spinner-wave .sk-rect5
+	{
+          -webkit-animation-delay: -0.8s;
+                  animation-delay: -0.8s;
+     }
 
-/* Media query for very small screens (e.g., small phones) */
-@media (max-width: 480px) {
-    .wave {
-        font-size: 8vw; /* Increase font size slightly on very small screens */
-    }
-    .preloader-photo {
-        width: 25vw; /* Adjust photo size for very small screens */
-    }
-}
+/*.preloader {*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    z-index: 99999;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    background: none repeat scroll 0 0 #ffffff;*/
+/*}*/
+
+/*.sk-spinner-wave {*/
+/*    display: flex;*/
+/*    gap: 5px; !* Adjust space between the letters *!*/
+/*}*/
+
+/*.wave {*/
+/*    font-size: 48px; !* Adjust size as needed *!*/
+/*    font-weight: bold;*/
+/*    color: #000000; !* Adjust color as needed *!*/
+/*    display: inline-block;*/
+/*    animation: wave-animation 1.2s infinite ease-in-out;*/
+/*}*/
+
+/*.wave:nth-child(1) { animation-delay: 0s; }*/
+/*.wave:nth-child(2) { animation-delay: 0.1s; }*/
+/*.wave:nth-child(3) { animation-delay: 0.2s; }*/
+/*.wave:nth-child(4) { animation-delay: 0.3s; }*/
+/*.wave:nth-child(5) { animation-delay: 0.4s; }*/
+/*.wave:nth-child(6) { animation-delay: 0.5s; }*/
+/*.wave:nth-child(7) { animation-delay: 0.6s; }*/
+/*.wave:nth-child(8) { animation-delay: 0.7s; }*/
+/*.wave:nth-child(9) { animation-delay: 0.8s; }*/
+/*.wave:nth-child(10) { animation-delay: 0.9s; }*/
+/*.wave:nth-child(11) { animation-delay: 1s; }*/
+/*.wave:nth-child(12) { animation-delay: 1.1s; }*/
 
 
-/*@-webkit-keyframes sk-waveStretchDelay {*/
-/*  0%, 40%, 100% {*/
-/*            -webkit-transform: scaleY(0.4);*/
-/*                    transform: scaleY(0.4); }*/
+/*.preloader-photo {*/
+/*	display: block;*/
+/*    margin-top: 20px; !* Adjust space between the name and the photo *!*/
+/*    width: 20vw; !* Adjust size as needed *!*/
+/*	max-width: 100px; !* Cap the size on larger screens *!*/
+/*    height: auto;*/
+/*    border-radius: 50%; !* Optional: makes the photo circular *!*/
+/*}*/
 
-/*  20% {*/
-/*            -webkit-transform: scaleY(1);*/
-/*                    transform: scaleY(1); } }*/
+/*!* Keyframes for wave animation *!*/
+/*@keyframes wave-animation {*/
+/*    0%, 60%, 100% {*/
+/*        transform: translateY(0);*/
+/*    }*/
+/*    30% {*/
+/*        transform: translateY(-15px);*/
+/*    }*/
+/*}*/
+/*@media (min-width: 768px) {*/
+/*    !*.preloader {*!*/
+/*    !*    height: calc(100% - 200px); !* Adjust space for photo on larger screens *!*!*/
+/*    !*}*!*/
+/*    .wave {*/
+/*        font-size: 48px; !* Larger font size for bigger screens *!*/
+/*    }*/
+/*    .preloader-photo {*/
+/*        width: 150px; !* Larger photo size for bigger screens *!*/
+/*        bottom: 20px;*/
+/*    }*/
+/*}*/
 
-/*@keyframes sk-waveStretchDelay {*/
-/*  0%, 40%, 100% {*/
-/*            -webkit-transform: scaleY(0.4);*/
-/*                    transform: scaleY(0.4); }*/
+/*!* Media query for very small screens (e.g., small phones) *!*/
+/*@media (max-width: 480px) {*/
+/*    .wave {*/
+/*        font-size: 8vw; !* Increase font size slightly on very small screens *!*/
+/*    }*/
+/*    .preloader-photo {*/
+/*        width: 25vw; !* Adjust photo size for very small screens *!*/
+/*    }*/
+/*}*/
 
-/*  20% {*/
-/*            -webkit-transform: scaleY(1);*/
-/*                    transform: scaleY(1); } }*/
-/* end preloader */
 
-/* start header */
+@-webkit-keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+            -webkit-transform: scaleY(0.4);
+                    transform: scaleY(0.4); }
+
+  20% {
+            -webkit-transform: scaleY(1);
+                    transform: scaleY(1); } }
+
+@keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+            -webkit-transform: scaleY(0.4);
+                    transform: scaleY(0.4); }
+
+  20% {
+            -webkit-transform: scaleY(1);
+                    transform: scaleY(1); } }
+ /*end preloader */
+
+ /*start header */
 header
 	{
 		min-height: 20px;
