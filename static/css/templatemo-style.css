@@ -73,7 +73,7 @@ h2 span
     font-weight: bold;
     color: #000000; /* Adjust color as needed */
     display: inline-block;
-    animation: wave-animation 0.9s infinite ease-in-out;
+    animation: wave-animation 1.2s infinite ease-in-out;
 }
 
 .wave:nth-child(1) { animation-delay: 0s; }
