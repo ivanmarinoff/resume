@@ -48,7 +48,10 @@ $(function(){
 });
 
 /* start preloader */
-$(window).load(function(){
-	$('.preloader').fadeOut(1000); // set duration in brackets    
+$(window).on('load', function() {
+    $('.preloader').fadeOut(1000, function() {
+        $(this).remove(); // Properly close the function
+    });
 });
 /* end preloader */
+
