@@ -29,6 +29,36 @@
     <script src="static/js/wow.min.js"></script>
     <script src="static/js/custom.js"></script>
     <script src="static/js/clarity.js"></script>
+    <script type="text/javascript">
+    // Fetch the IP address once when the page loads
+    let ipAddress = '';
+
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            ipAddress = data.ip;
+        });
+
+    // Listen for the beforeunload event to capture when the user is leaving the page
+    window.addEventListener('beforeunload', function () {
+
+        // Prepare data to be sent
+        const data = {
+            ip: ipAddress,  // Use the captured IP address
+            browser: navigator.userAgent,
+            os: navigator.platform,
+            time: new Date().toLocaleString()
+        };
+
+        // Use sendBeacon to send the data to your server when the session ends
+        navigator.sendBeacon('/session-end', JSON.stringify(data));
+    });
+</script>
+
+
+
+
+
 
 </head>
 <body id="top">
