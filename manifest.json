@@ -1,0 +1,73 @@
+{
+  "name": "My Resume Site",
+  "short_name": "Resume",
+  "description": "This is a Resume site on my portfolio.",
+  "version": "1.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://cookieinfoscript.com/*",
+    "*://google-analytics.com/*",
+    "*://tagmanager.google.com/*",
+    "*://clarity.microsoft.com/*",
+    "*://fonts.googleapis.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "static/js/gtag.js",
+        "static/js/head_tagscript.js",
+        "static/js/jquery.js",
+        "static/js/bootstrap.min.js",
+        "static/js/jquery.singlePageNav.min.js",
+        "static/js/typed.js",
+        "static/js/wow.min.js",
+        "static/js/custom.js",
+        "static/js/clarity.js",
+        "static/js/body_tagscript.js"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "static/js/background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "static/js/gtag.js",
+        "static/js/head_tagscript.js",
+        "static/js/jquery.js",
+        "static/js/bootstrap.min.js",
+        "static/js/jquery.singlePageNav.min.js",
+        "static/js/typed.js",
+        "static/js/wow.min.js",
+        "static/js/custom.js",
+        "static/js/clarity.js",
+        "static/js/body_tagscript.js",
+        "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'nonce-randomNonceValue'; object-src 'self'; 'unsafe-inline' 'unsafe-eval' https://cookieinfoscript.com https://google-analytics.com https://clarity.microsoft.com; object-src 'self';",
+  "background_color": "#3367D6",
+  "theme_color": "#3367D6",
+  "icons": [
+    {
+      "src": "/static/fonts/fontawesome-webfont.svg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
