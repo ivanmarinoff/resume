@@ -1,3 +1,9 @@
+window.clarity = function (consent) {
+
+};
+window.clarity('consent');
+
+
 (function (c, l, a, r, i, t, y) {
     c[a] = c[a] || function () {
         (c[a].q = c[a].q || []).push(arguments)

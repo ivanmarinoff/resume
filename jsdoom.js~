@@ -1,0 +1,103 @@
+const fs = require('fs');        // File system module to read the HTML file
+const { JSDOM } = require('jsdom');
+const path = require('path');    // Module for handling file paths
+
+// Specify the path to your HTML file
+const htmlFilePath = path.join(__dirname, 'index.html'); // Change 'example.html' to your HTML file name
+
+// Read the HTML file content
+fs.readFile(htmlFilePath, 'utf8', (err, data) => {
+  if (err) {
+    console.error("Error reading the file:", err);
+    return;
+  }
+
+  // Create a DOM using the HTML file content
+  const dom = new JSDOM(data);
+  const document = dom.window.document;
+
+  // Helper function to extract attributes into an object
+  const extractAttributes = (node) =>
+    Array.from(node.attributes, ({ name, value }) => ({ [name]: value })).reduce((acc, curr) => Object.assign(acc, curr), {});
+
+  // Helper function to extract text content or default to an empty string
+  const getText = (node) => (node ? node.textContent.trim() : "");
+
+  // Extract data dynamically from the HTML structure
+  const parseHtml = () => {
+    // Extract basic information from the document
+    const shortName = getText(document.querySelector('.short-name'));
+    const name = getText(document.querySelector('h1', 'h2', 'p', 'h3', 'h4', 'h5', 'h6', 'li', 'a', 'button', 'span', 'input'));
+    const description = name || " No description provided";
+    const version = getText(document.querySelector('.version'));
+
+    // Extract icons from the document
+    const icons = Array.from(document.querySelectorAll('.icons img')).map(img => ({
+      src: img.getAttribute('src'),
+      type: img.getAttribute('type'),
+      sizes: img.getAttribute('sizes')
+    }));
+
+    // Extract shortcuts from the document
+    const shortcuts = Array.from(document.querySelectorAll('.shortcuts .shortcut')).map(shortcut => ({
+      name: getText(shortcut.querySelector('.name')),
+      short_name: getText(shortcut.querySelector('.short-name')),
+      description: getText(shortcut.querySelector('.description')),
+      url: shortcut.querySelector('a').getAttribute('href'),
+      icons: [
+        {
+          src: shortcut.querySelector('img').getAttribute('src'),
+          sizes: shortcut.querySelector('img').getAttribute('sizes')
+        }
+      ]
+    }));
+
+    // Extract permissions from the footer
+    const permissions = Array.from(document.querySelectorAll('footer .permissions li')).map(li => li.textContent.trim());
+
+    // Extract URLs from the body or footer
+    const urls = Array.from(document.querySelectorAll('body .urls a, footer .urls a')).map(a => a.getAttribute('href'));
+
+    // Extract host permissions
+    const hostPermissions = Array.from(document.querySelectorAll('footer .host-permissions li')).map(li => li.textContent.trim());
+
+    // Extract content scripts
+    const contentScripts = Array.from(document.querySelectorAll('footer .content-scripts script')).map(script => ({
+      src: script.getAttribute('src'),
+      type: script.getAttribute('type')
+    }));
+
+    // Extract web accessible resources
+    const webAccessibleResources = Array.from(document.querySelectorAll('footer .web-accessible-resources li')).map(li => li.textContent.trim());
+
+    // Construct the JSON structure dynamically
+    return {
+      short_name: shortName,
+      name: name,
+      icons: icons,
+      id: "/?source=pwa",
+      start_url: "/?source=pwa",
+      background_color: "#3367D6",
+      display: "standalone",
+      scope: "/",
+      theme_color: "#3367D6",
+      shortcuts: shortcuts,
+      description: description,
+      permissions: permissions,
+      host_permissions: hostPermissions,
+      urls: urls,
+      content_scripts: contentScripts,
+      web_accessible_resources: webAccessibleResources,
+      screenshots: Array.from(document.querySelectorAll('.screenshots img')).map(img => ({
+        src: img.getAttribute('src'),
+        type: img.getAttribute('type'),
+        sizes: img.getAttribute('sizes'),
+        form_factor: img.getAttribute('data-form-factor')
+      }))
+    };
+  };
+
+  // Generate the JSON from the HTML structure and print it
+  const result = JSON.stringify(parseHtml(), null, 2);
+  console.log(result);
+});
