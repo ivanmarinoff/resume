@@ -135,7 +135,8 @@ app.get('/manifest.json', function (req, res) {
                     "static/js/typed.js",
                     "static/js/wow.min.js",
                     "static/js/custom.js",
-                    "static/js/body_tagscript.js"
+                    "static/js/body_tagscript.js",
+                    "static/js/cookieinfo.min.js",
                 ]
             }
         ],
@@ -153,6 +154,8 @@ app.get('/manifest.json', function (req, res) {
                     "static/js/typed.js",
                     "static/js/wow.min.js",
                     "static/js/custom.js",
+                    "static/js/cookieinfo.min.js",
+                    "static/js/body_tagscript.js",
                     "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
                 ],
                 matches: ["<all_urls>"]
