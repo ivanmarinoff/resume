@@ -7,6 +7,8 @@ const nodemailer = require('nodemailer');
 const useragent = require('express-useragent');
 const helmet = require('helmet');
 const crypto = require('crypto');
+const dotenv = require('dotenv');
+dotenv.config();
 
 app.use((req, res, next) => {
     res.locals.nonce = crypto.randomBytes(16).toString('base64'); // Generate a unique nonce
@@ -77,7 +79,7 @@ async function sendEmail(visitorIP, browser, os, time) {
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER, // Sending the email to yourself
+        to: process.env.EMAIL_USER1, // Sending the email to yourself
         subject: 'A new visitor has accessed your page.',
         text: `
             A visitor has left your page.
@@ -88,12 +90,12 @@ async function sendEmail(visitorIP, browser, os, time) {
         `
     };
 
-    // try {
-    //     const info = await transporter.sendMail(mailOptions);
-    //     console.log('Email sent:', info.response);
-    // } catch (error) {
-    //     console.log('Error sending email:', error);
-    // }
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent:', info.response);
+    } catch (error) {
+        console.log('Error sending email:', error);
+    }
 }
 
 const isDesktop = (userAgent) => {
