@@ -407,7 +407,7 @@
             <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="0.6s">
                 <div class="portfolio-thumb">
 <!--                    <a href="https://menu-planning-calories.onrender.com" target="_blank" rel="noopener noreferrer">-->
-                    <a href="https://calories-planning-menu.onrender.com" target="_blank" rel="noopener noreferrer">
+                    <a href="https://menu-planning-calories.onrender.com" target="_blank" rel="noopener noreferrer">
                         <img src="static/images/Menu_planning.PNG" class="img-responsive" alt="portfolio img 3">
                         <div class="portfolio-overlay">
                             <h4>Planning Calories in Menu</h4>
