@@ -15,10 +15,10 @@ const fs = require('fs');
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-const GTM_ID = process.env.GTM_ID;
-const GA_ID = process.env.GA_ID;
-const CLARITY_ID = process.env.CLARITY_ID;
-const isProd = process.env.NODE_ENV === 'production';
+// const GTM_ID = process.env.GTM_ID;
+// const GA_ID = process.env.GA_ID;
+// const CLARITY_ID = process.env.CLARITY_ID;
+// const isProd = process.env.NODE_ENV === 'production';
 
 const app = express();
 
@@ -120,52 +120,52 @@ app.get('/manifest.json', function (req, res) {
 // 🏠 Главна страница
 // =========================
 app.get('/', (req, res) => {
-  const nonce = res.locals.nonce;
-
-  const analyticsScripts = isProd
-    ? `
-      <!-- ✅ Google Tag Manager -->
-      <script nonce="${nonce}">
-        (function(w,d,s,l,i){
-          w[l]=w[l]||[];
-          w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
-          var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),
-              dl=l!='dataLayer'?'&l='+l:'';
-          j.async=true;
-          j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-          var n=d.querySelector('[nonce]');
-          if(n) j.setAttribute('nonce', n.nonce || n.getAttribute('nonce'));
-          f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${GTM_ID}');
-      </script>
-
-      <!-- ✅ Google Analytics -->
-      <script nonce="${nonce}" async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
-      <script nonce="${nonce}">
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '${GA_ID}');
-      </script>
-
-      <!-- ✅ Microsoft Clarity -->
-      <script nonce="${nonce}">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            var n=l.querySelector('[nonce]');
-            if(n) t.setAttribute('nonce', n.nonce || n.getAttribute('nonce'));
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "${CLARITY_ID}");
-      </script>
-    `
-    : `
-      <!-- ⚠️ Development Mode -->
-      <script nonce="${nonce}">
-        console.warn('Analytics scripts are disabled in development mode.');
-      </script>
-    `;
+  // const nonce = res.locals.nonce;
+  //
+  // const analyticsScripts = isProd
+  //   ? `
+  //     <!-- ✅ Google Tag Manager -->
+  //     <script nonce="${nonce}">
+  //       (function(w,d,s,l,i){
+  //         w[l]=w[l]||[];
+  //         w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+  //         var f=d.getElementsByTagName(s)[0],
+  //             j=d.createElement(s),
+  //             dl=l!='dataLayer'?'&l='+l:'';
+  //         j.async=true;
+  //         j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+  //         var n=d.querySelector('[nonce]');
+  //         if(n) j.setAttribute('nonce', n.nonce || n.getAttribute('nonce'));
+  //         f.parentNode.insertBefore(j,f);
+  //       })(window,document,'script','dataLayer','${GTM_ID}');
+  //     </script>
+  //
+  //     <!-- ✅ Google Analytics -->
+  //     <script nonce="${nonce}" async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+  //     <script nonce="${nonce}">
+  //       window.dataLayer = window.dataLayer || [];
+  //       function gtag(){dataLayer.push(arguments);}
+  //       gtag('js', new Date());
+  //       gtag('config', '${GA_ID}');
+  //     </script>
+  //
+  //     <!-- ✅ Microsoft Clarity -->
+  //     <script nonce="${nonce}">
+  //       (function(c,l,a,r,i,t,y){
+  //           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  //           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  //           var n=l.querySelector('[nonce]');
+  //           if(n) t.setAttribute('nonce', n.nonce || n.getAttribute('nonce'));
+  //           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  //       })(window, document, "clarity", "script", "${CLARITY_ID}");
+  //     </script>
+  //   `
+  //   : `
+  //     <!-- ⚠️ Development Mode -->
+  //     <script nonce="${nonce}">
+  //       console.warn('Analytics scripts are disabled in development mode.');
+  //     </script>
+  //   `;
 
 
     // Serve the HTML file
@@ -178,8 +178,8 @@ app.get('/', (req, res) => {
 // =========================
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
-  console.log(`🌍 Mode: ${isProd ? 'Production' : 'Development'}`);
-  console.log(`📊 GTM: ${GTM_ID || 'Not set'}`);
-  console.log(`📈 GA: ${GA_ID || 'Not set'}`);
-  console.log(`🧠 Clarity: ${CLARITY_ID || 'Not set'}`);
+  // console.log(`🌍 Mode: ${isProd ? 'Production' : 'Development'}`);
+  // console.log(`📊 GTM: ${GTM_ID || 'Not set'}`);
+  // console.log(`📈 GA: ${GA_ID || 'Not set'}`);
+  // console.log(`🧠 Clarity: ${CLARITY_ID || 'Not set'}`);
 });
