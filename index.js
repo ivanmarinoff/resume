@@ -214,8 +214,8 @@ app.post('/session-end', express.json(), (req, res) => {
 });
 
 
-// Mixpanel setup (if needed)
-const Mixpanel = require('mixpanel', {track_pageview: true});
-
-// Create an instance of the Mixpanel client
-const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN, {host: "api-eu.mixpanel.com"});
+// // Mixpanel setup (if needed)
+// const Mixpanel = require('mixpanel', {track_pageview: true});
+//
+// // Create an instance of the Mixpanel client
+// const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN, {host: "api-eu.mixpanel.com"});
