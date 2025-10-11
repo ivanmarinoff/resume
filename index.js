@@ -1,221 +1,185 @@
-// const http = require('http'); // Unused, so it can be removed
-const port = process.env.PORT || 3000;
+// =========================
+// 📦 Импорт на зависимости
+// =========================
 const express = require('express');
-const app = express();
 const path = require('path');
-// const nodemailer = require('nodemailer');
 const useragent = require('express-useragent');
 const helmet = require('helmet');
 const crypto = require('crypto');
 const dotenv = require('dotenv');
+const fs = require('fs');
+
+// =========================
+// ⚙️ Зареждане на .env
+// =========================
 dotenv.config();
 
+const port = process.env.PORT || 3000;
+const GTM_ID = process.env.GTM_ID;
+const GA_ID = process.env.GA_ID;
+const CLARITY_ID = process.env.CLARITY_ID;
+const isProd = process.env.NODE_ENV === 'production';
+
+const app = express();
+
+// =========================
+// 🛡️ Nonce + CSP Middleware
+// =========================
 app.use((req, res, next) => {
-    res.locals.nonce = crypto.randomBytes(16).toString('base64'); // Generate a unique nonce
-    next();
+  const nonce = crypto.randomBytes(16).toString('base64');
+  res.locals.nonce = nonce;
+
+  const csp = [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms`,
+    "img-src 'self' data: https:",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com",
+    "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.clarity.ms",
+    "frame-src 'self' https://www.googletagmanager.com https://www.clarity.ms",
+    "object-src 'none'",
+    "base-uri 'self'"
+  ].join('; ');
+
+  res.setHeader("Content-Security-Policy", csp);
+  next();
 });
 
+// =========================
+// 🧰 Основни middlewares
+// =========================
 app.use(useragent.express());
-require('dotenv').config();
-app.use((req, res, next) => {
-    res.setHeader("Content-Security-Policy", `script-src 'self' 'nonce-${res.locals.nonce}'; object-src 'none';`);
-    next();
-});
-
-// Static file serving
 app.use('/static', express.static(path.join(__dirname, 'static')));
-
-// Pug template engine setup (if needed)
 app.set('view engine', 'pug');
+app.use(require('body-parser').urlencoded({ extended: true }));
 
-// Body parser for form data
-app.use(require('body-parser').urlencoded({extended: true}));
 app.use(
-    helmet.contentSecurityPolicy({
-        directives: {
-            defaultSrc: ["'self'"],
-            fontSrc: ["'self'"],
-            imgSrc: ["'self'"],
-            scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`], // Use the generated nonce
-            styleSrc: ["'self'"],
-            frameSrc: ["'self'"],
-        },
-        reportOnly: true, // Set to 'true' to enable report-only mode
-    })
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      scriptSrc: [
+        "'self'",
+        "https://www.googletagmanager.com",
+        "https://www.google-analytics.com",
+        "https://www.clarity.ms",
+        (req, res) => `'nonce-${res.locals.nonce}'`
+      ],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      frameSrc: ["'self'", "https://www.googletagmanager.com", "https://www.clarity.ms"],
+    },
+    reportOnly: true,
+  })
 );
-// Nodemailer setup with custom host and port
-// const transporter = nodemailer.createTransport({
-//     host: process.env.EMAIL_HOST, // SMTP server (e.g., smtp.gmail.com)
-//     port: parseInt(process.env.EMAIL_PORT), // Convert string to number
-//     secure: parseInt(process.env.EMAIL_PORT) === 465, // true for port 465 (SSL), false otherwise (e.g., 587 for TLS)
-//     auth: {
-//         user: process.env.EMAIL_USER, // Your email address
-//         pass: process.env.EMAIL_PASS  // Your email password or app-specific password
-//     }
-// });
 
-// Function to send an email notification
-// async function sendEmail(visitorIP, browser, os, time) {
-//     let ipAddress = '';
-//
-//     async function fetchIpAddress() {
-//         try {
-//             const response = await fetch('https://api.ipify.org?format=json');
-//             const data = await response.json();
-//             ipAddress = data.ip;
-//         } catch (error) {
-//             console.error('Failed to fetch IP address:', error);
-//         }
-//     }
-//
-//     // Fetch IP address on page load
-//     await fetchIpAddress();
-//
-//     // fetch('https://api.ipify.org?format=json')
-//     //     .then(response => response.json())
-//     //     .then(data => {
-//     //         ipAddress = data.ip;
-//     //     });
-//
-//     const mailOptions = {
-//         from: process.env.EMAIL_USER,
-//         to: process.env.EMAIL_USER1, // Sending the email to yourself
-//         subject: 'A new visitor has accessed your page.',
-//         text: `
-//             A visitor has left your page.
-//             IP: ${visitorIP}
-//             Browser: ${browser}
-//             OS: ${os}
-//             Session Ended: ${time}
-//         `
-//     };
-//
-//     try {
-//         const info = await transporter.sendMail(mailOptions);
-//         console.log('Email sent:', info.response);
-//     } catch (error) {
-//         console.log('Error sending email:', error);
-//     }
-// }
-
-const isDesktop = (userAgent) => {
-    return /Windows|Macintosh|Linux/.test(userAgent);
-};
-
-// Serve the manifest.json dynamically
-const fs = require('fs'); // Import the file system module
+// =========================
+// 🧾 manifest.json endpoint
+// =========================
+const isDesktop = (userAgent) => /Windows|Macintosh|Linux/.test(userAgent);
 
 app.get('/manifest.json', function (req, res) {
-    const iconUrl = isDesktop(req.useragent.platform)
-        ? '/static/fonts/fontawesome-webfont.svg'
-        : '/static/fonts/fontawesome-webfont.svg';
+  const iconUrl = isDesktop(req.useragent.platform)
+    ? '/static/fonts/fontawesome-webfont.svg'
+    : '/static/fonts/fontawesome-webfont.svg';
 
-    const manifest = {
-        name: "My Resume Site",
-        short_name: "Resume",
-        description: "This is a Resume site on my portfolio.",
-        version: "1.0.0",
-        start_url: "/",
-        display: "standalone",
-        orientation: "any",
-        permissions: ["storage", "activeTab", "scripting"],
-        host_permissions: [
-            "*://cookieinfoscript.com/*",
-            "*://google-analytics.com/*",
-            "*://tagmanager.google.com/*",
-            "*://fonts.googleapis.com/*"
-        ],
-        content_scripts: [
-            {
-                matches: ["<all_urls>"],
-                js: [
-                    "static/js/gtag.js",
-                    "static/js/head_tagscript.js",
-                    "static/js/jquery.js",
-                    "static/js/bootstrap.min.js",
-                    "static/js/jquery.singlePageNav.min.js",
-                    "static/js/typed.js",
-                    "static/js/wow.min.js",
-                    "static/js/custom.js",
-                    "static/js/body_tagscript.js",
-                    "static/js/cookieinfo.min.js",
-                ]
-            }
-        ],
-        background: {
-            service_worker: "static/js/background.js"
-        },
-        web_accessible_resources: [
-            {
-                resources: [
-                    "static/js/gtag.js",
-                    "static/js/head_tagscript.js",
-                    "static/js/jquery.js",
-                    "static/js/bootstrap.min.js",
-                    "static/js/jquery.singlePageNav.min.js",
-                    "static/js/typed.js",
-                    "static/js/wow.min.js",
-                    "static/js/custom.js",
-                    "static/js/cookieinfo.min.js",
-                    "static/js/body_tagscript.js",
-                    "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
-                ],
-                matches: ["<all_urls>"]
-            }
-        ],
-        content_security_policy:
-            "script-src 'self' 'nonce-randomNonceValue'; object-src 'self'; 'unsafe-inline' 'unsafe-eval' https://cookieinfoscript.com https://google-analytics.com; object-src 'self';",
-        background_color: "#3367D6",
-        theme_color: "#3367D6",
-        icons: [
-            {
-                src: iconUrl,
-                sizes: "512x512",
-                type: "image/png"
-            }
-        ]
-    };
+  const manifest = {
+    name: "My Resume Site",
+    short_name: "Resume",
+    description: "This is a Resume site on my portfolio.",
+    version: "1.0.0",
+    start_url: "/",
+    display: "standalone",
+    orientation: "any",
+    permissions: ["storage", "activeTab", "scripting"],
+    host_permissions: [
+      "*://cookieinfoscript.com/*",
+      "*://google-analytics.com/*",
+      "*://tagmanager.google.com/*",
+      "*://fonts.googleapis.com/*"
+    ],
+    content_security_policy:
+      "script-src 'self' 'nonce-randomNonceValue' https://www.googletagmanager.com https://google-analytics.com https://www.clarity.ms; object-src 'none';",
+    background_color: "#3367D6",
+    theme_color: "#3367D6",
+    icons: [
+      {
+        src: iconUrl,
+        sizes: "512x512",
+        type: "image/png"
+      }
+    ]
+  };
 
-    // Write the manifest to the root directory as 'manifest.json'
-    fs.writeFileSync('./manifest.json', JSON.stringify(manifest, null, 2), 'utf-8');
-
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).send(JSON.stringify(manifest, null, 2));
+  fs.writeFileSync('./manifest.json', JSON.stringify(manifest, null, 2), 'utf-8');
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).send(JSON.stringify(manifest, null, 2));
 });
 
+// =========================
+// 🏠 Главна страница
+// =========================
+app.get('/', (req, res) => {
+  const nonce = res.locals.nonce;
 
-// Set up your index route
-app.get('/', function (req, res) {
-    // const visitorIP = req.ip; // Get the visitor's IP address
-    // const browser = req.useragent.browser; // Get the browser information
-    // const os = req.useragent.os; // Get the OS information
-    // const time = new Date().toLocaleString(); // Get the current time
+  const analyticsScripts = isProd
+    ? `
+      <!-- ✅ Google Tag Manager -->
+      <script nonce="${nonce}">
+        (function(w,d,s,l,i){
+          w[l]=w[l]||[];
+          w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+          var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),
+              dl=l!='dataLayer'?'&l='+l:'';
+          j.async=true;
+          j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+          var n=d.querySelector('[nonce]');
+          if(n) j.setAttribute('nonce', n.nonce || n.getAttribute('nonce'));
+          f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${GTM_ID}');
+      </script>
 
-    // Send an email notification with all details
-    // sendEmail(visitorIP, browser, os, time);
+      <!-- ✅ Google Analytics -->
+      <script nonce="${nonce}" async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+      <script nonce="${nonce}">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${GA_ID}');
+      </script>
+
+      <!-- ✅ Microsoft Clarity -->
+      <script nonce="${nonce}">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            var n=l.querySelector('[nonce]');
+            if(n) t.setAttribute('nonce', n.nonce || n.getAttribute('nonce'));
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "${CLARITY_ID}");
+      </script>
+    `
+    : `
+      <!-- ⚠️ Development Mode -->
+      <script nonce="${nonce}">
+        console.warn('Analytics scripts are disabled in development mode.');
+      </script>
+    `;
+
 
     // Serve the HTML file
     res.sendFile(__dirname + '/index.html');
 });
 
 
-// Start the server
-app.listen(port, function () {
-    console.log(`Server is listening on port ${port}`);
+// =========================
+// 🚀 Стартиране на сървъра
+// =========================
+app.listen(port, () => {
+  console.log(`✅ Server running on port ${port}`);
+  console.log(`🌍 Mode: ${isProd ? 'Production' : 'Development'}`);
+  console.log(`📊 GTM: ${GTM_ID || 'Not set'}`);
+  console.log(`📈 GA: ${GA_ID || 'Not set'}`);
+  console.log(`🧠 Clarity: ${CLARITY_ID || 'Not set'}`);
 });
-
-app.post('/session-end', express.json(), (req, res) => {
-    const {ip, browser, os, time} = req.body;
-
-    // Send an email with the collected data
-    sendEmail(ip, browser, os, time);
-
-    res.sendStatus(200); // Respond with a status to indicate successful handling
-});
-
-
-// // Mixpanel setup (if needed)
-// const Mixpanel = require('mixpanel', {track_pageview: true});
-//
-// // Create an instance of the Mixpanel client
-// const mixpanel = Mixpanel.init(process.env.MIXPANEL_TOKEN, {host: "api-eu.mixpanel.com"});
